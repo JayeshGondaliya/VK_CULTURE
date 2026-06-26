@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>VK CULTURE | Premium Store</title>
+        <meta name="description"
+            content="LUMINA - The pinnacle of digital luxury shopping.">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+            rel="stylesheet">
+
+        <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        premium: {
+                            50: '#FDFCFB',
+                            100: '#F5F5F7',
+                            200: '#E5E5E7',
+                            800: '#1D1D1F',
+                            900: '#000000',
+                            gold: '#C5A059'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+        <style>
+        .glass { background: rgba(255,255,255,0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.3); }
+        .dark .glass { background: rgba(29,29,31,0.7); border: 1px solid rgba(255,255,255,0.05); }
+        .page-section { display: none; opacity: 0; transform: translateY(10px); transition: all 0.5s ease; }
+        .page-section.active { display: block; opacity: 1; transform: translateY(0); }
+        .product-card:hover .quick-view-btn { opacity: 1; transform: translateY(0); }
+        .quick-view-btn { opacity: 0; transform: translateY(4px); transition: all 0.3s ease; }
+        .admin-card:hover { transform: translateY(-2px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: #C5A059; border-radius: 20px; }
+        .auth-toggle { cursor: pointer; transition: all 0.3s ease; }
+        .auth-toggle:hover { color: #C5A059; }
+        .tab-active { border-bottom: 2px solid #C5A059; color: #C5A059; }
+        
+        /* ===== 800x800 Image Styles ===== */
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            aspect-ratio: 1/1;
+        }
+        .aspect-square {
+            aspect-ratio: 1/1;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        /* Star Rating */
+.text-premium-gold {
+    color: #C5A059;
+}
+    </style>
+    </head>
+    <body
+        class="bg-premium-100 dark:bg-premium-900 text-premium-800 dark:text-premium-100 transition-colors duration-500">
+
+        <!-- Screen Loader -->
+        <div id="screen-loader"
+            class="fixed inset-0 z-[9999] bg-premium-900 flex items-center justify-center transition-opacity duration-700">
+            <div class="flex flex-col items-center">
+                <div
+                    class="w-12 h-12 border-2 border-premium-gold border-t-transparent rounded-full animate-spin"></div>
+                <span
+                    class="mt-4 tracking-[0.5em] text-premium-gold text-xs font-bold animate-pulse uppercase">VK
+                    CULTURE</span>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav
+            class="fixed top-0 w-full z-[100] glass border-b border-white/10 px-6 md:px-12 py-4 flex items-center justify-between transition-all duration-300"
+            id="main-nav">
+            <div class="flex items-center gap-12">
+                <a href="javascript:void(0)" onclick="app.navigate('home')"
+                    class="text-2xl font-black tracking-tighter flex items-center gap-2">
+                    <div
+                        class="w-8 h-8 bg-premium-gold rounded-full flex items-center justify-center text-premium-900 text-sm">Vk</div>
+                    <span class="dark:text-white uppercase">CULTURE</span>
+                </a>
+                <div
+                    class="hidden lg:flex items-center gap-8 text-[11px] font-bold uppercase tracking-[0.2em] opacity-60">
+                    <a href="javascript:void(0)" onclick="app.navigate('shop')"
+                        class="hover:text-premium-gold hover:opacity-100 transition-all">Shop</a>
+                    <a href="javascript:void(0)" onclick="app.navigate('admin')"
+                        class="hover:text-premium-gold transition-all text-premium-gold">Admin</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <button onclick="app.toggleTheme()"
+                    class="text-lg opacity-60 hover:opacity-100 transition-all">
+                    <i id="theme-toggle-icon" class="fa-solid fa-moon"></i>
+                </button>
+                <div class="relative cursor-pointer group"
+                    onclick="app.toggleCart()">
+                    <i class="fa-solid fa-bag-shopping text-xl"></i>
+                    <span id="cart-badge"
+                        class="absolute -top-2 -right-2 bg-premium-gold text-premium-900 text-[10px] font-black w-4 h-4 flex items-center justify-center rounded-full">0</span>
+                </div>
+                <button onclick="app.navigate('profile')"
+                    class="hidden md:flex items-center gap-3 glass py-1.5 px-4 rounded-full border border-white/20 hover:border-premium-gold transition-all">
+                    <div
+                        class="w-6 h-6 bg-premium-200 dark:bg-white/10 rounded-full flex items-center justify-center overflow-hidden">
+                        <i class="fa-solid fa-user text-[10px]"></i>
+                    </div>
+                    <span id="nav-user-name" class="text-xs font-bold">Sign
+                        In</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Container -->
+        <main class="min-h-screen">
+            <!-- Home Page -->
+            <section id="home-page" class="page-section active pt-0">
+                <div
+                    class="relative h-screen flex items-center overflow-hidden bg-premium-900">
+                    <div class="absolute inset-0 z-0">
+                        <img
+                            src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=2000"
+                            class="w-full h-full object-cover opacity-60">
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent"></div>
+                    <div class="relative z-10 px-6 md:px-24 max-w-4xl">
+                        <h5
+                            class="text-premium-gold font-bold tracking-[0.5em] uppercase mb-6 text-sm">Your
+                            Collection 2025</h5>
+                        <h1
+                            class="text-6xl md:text-8xl font-black text-white leading-none mb-8">
+                            LUXURY <br> <span
+                                class="italic font-serif text-premium-gold">REDEFINED.</span>
+                        </h1>
+                        <p
+                            class="text-white/60 text-lg md:text-xl max-w-xl mb-12 leading-relaxed">
+                            Curated selections from the world's finest ateliers.
+                        </p>
+                        <button onclick="app.navigate('shop')"
+                            class="bg-premium-gold text-premium-900 px-10 py-5 rounded-full font-black uppercase tracking-widest text-xs hover:bg-white transition-all shadow-2xl">Explore
+                            Collection</button>
+                    </div>
+                </div>
+
+                <div class="py-24 px-6 md:px-12 bg-white dark:bg-black">
+                    <div class="flex justify-between items-end mb-16">
+                        <div>
+                            <h2
+                                class="text-4xl font-black italic mb-2">Categories</h2>
+                            <p class="opacity-50">Select your atmosphere of
+                                luxury.</p>
+                        </div>
+                    </div>
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8"
+                        id="category-grid"></div>
+                </div>
+
+                <div class="py-24 px-6 md:px-12">
+                    <div class="text-center mb-20">
+                        <h2 class="text-5xl font-black mb-4">Featured
+                            Products</h2>
+                        <div class="w-24 h-1 bg-premium-gold mx-auto"></div>
+                    </div>
+                    <div
+                        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10"
+                        id="home-featured-grid"></div>
+                </div>
+            </section>
+
+            <!-- Shop Page -->
+            <section id="shop-page" class="page-section px-6 md:px-12 py-32">
+                <div class="flex flex-col lg:flex-row gap-12">
+                    <aside class="w-full lg:w-72 space-y-10">
+                        <div>
+                            <h3
+                                class="text-xs font-black uppercase tracking-[0.3em] mb-6 text-premium-gold">Refine
+                                By</h3>
+                            <div class="space-y-8">
+                                <div>
+                                    <label
+                                        class="block text-sm font-bold mb-3">Category</label>
+                                    <div id="shop-categories"
+                                        class="flex flex-col gap-2"></div>
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-sm font-bold mb-3">Price
+                                        Range</label>
+                                    <input type="range" id="price-filter"
+                                        min="0" max="20000000" step="1000"
+                                        class="w-full accent-premium-gold">
+                                    <div
+                                        class="flex justify-between text-[10px] mt-2 font-bold opacity-50">
+                                        <span>₹0</span>
+                                        <span id="price-val">₹2,00,00,000</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-sm font-bold mb-3">Sort
+                                        By</label>
+                                    <select id="sort-select"
+                                        class="w-full bg-transparent border-b border-white/20 py-2 text-sm focus:outline-none">
+                                        <option value="newest">Newest
+                                            First</option>
+                                        <option value="low">Price: Low to
+                                            High</option>
+                                        <option value="high">Price: High to
+                                            Low</option>
+                                        <option value="popular">Most
+                                            Popular</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-center mb-8">
+                            <p class="text-sm opacity-50"><span
+                                    id="product-count">0</span> products
+                                found</p>
+                        </div>
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-10"
+                            id="shop-grid"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile / Auth Page -->
+            <section id="profile-page" class="page-section px-6 md:px-12 py-32">
+                <div class="max-w-6xl mx-auto">
+                    <!-- Auth Tabs -->
+                    <div class="flex justify-center gap-8 mb-12">
+                        <button onclick="app.showAuthTab('login')"
+                            id="login-tab"
+                            class="text-lg font-black uppercase tracking-widest pb-2 tab-active auth-toggle">Sign
+                            In</button>
+                        <button onclick="app.showAuthTab('register')"
+                            id="register-tab"
+                            class="text-lg font-black uppercase tracking-widest pb-2 opacity-40 auth-toggle">Register</button>
+                    </div>
+
+                    <!-- Login Form -->
+                    <div id="login-form" class="max-w-md mx-auto">
+                        <div class="glass p-10 rounded-[3rem] shadow-2xl">
+                            <h2 class="text-3xl font-black italic mb-2">Welcome
+                                Back</h2>
+                            <p class="opacity-50 mb-8 text-sm">Enter your
+                                credentials to access your manor.</p>
+                            <form onsubmit="app.handleLogin(event)"
+                                class="space-y-4">
+                                <input type="email" id="login-email"
+                                    placeholder="Email Address" required
+                                    class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                                <input type="password" id="login-pass"
+                                    placeholder="Password" required
+                                    class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                                <button type="submit"
+                                    class="w-full bg-premium-gold text-premium-900 py-4 rounded-2xl font-black uppercase tracking-widest text-xs mt-4 hover:scale-105 transition-transform">Sign
+                                    In</button>
+                            </form>
+                            <p class="text-center text-xs opacity-40 mt-6">Don't
+                                have an account? <span
+                                    onclick="app.showAuthTab('register')"
+                                    class="text-premium-gold cursor-pointer hover:underline">Register</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Register Form -->
+                    <div id="register-form" class="max-w-md mx-auto hidden">
+                        <div class="glass p-10 rounded-[3rem] shadow-2xl">
+                            <h2 class="text-3xl font-black italic mb-2">Create
+                                Account</h2>
+                            <p class="opacity-50 mb-8 text-sm">Join the world of
+                                luxury.</p>
+                            <form onsubmit="app.handleRegister(event)"
+                                class="space-y-4">
+                                <input type="text" id="reg-name"
+                                    placeholder="Full Name" required
+                                    class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                                <input type="email" id="reg-email"
+                                    placeholder="Email Address" required
+                                    class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                                <input type="password" id="reg-pass"
+                                    placeholder="Password (min 6 characters)"
+                                    required minlength="6"
+                                    class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                                <input type="password" id="reg-pass-confirm"
+                                    placeholder="Confirm Password" required
+                                    class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                                <button type="submit"
+                                    class="w-full bg-premium-gold text-premium-900 py-4 rounded-2xl font-black uppercase tracking-widest text-xs mt-4 hover:scale-105 transition-transform">Create
+                                    Account</button>
+                            </form>
+                            <p
+                                class="text-center text-xs opacity-40 mt-6">Already
+                                have an account? <span
+                                    onclick="app.showAuthTab('login')"
+                                    class="text-premium-gold cursor-pointer hover:underline">Sign
+                                    In</span></p>
+                        </div>
+                    </div>
+
+                    <!-- User Dashboard (after login) -->
+                    <div id="user-dashboard" class="hidden">
+                        <div class="flex flex-col lg:flex-row gap-12">
+                            <aside class="w-full lg:w-64 space-y-4">
+                                <div
+                                    class="glass p-8 rounded-[2rem] text-center mb-8">
+                                    <div
+                                        class="w-20 h-20 bg-premium-gold mx-auto rounded-full flex items-center justify-center text-3xl font-black text-premium-900 mb-4"
+                                        id="user-initial">U</div>
+                                    <h3 class="font-bold text-lg"
+                                        id="dashboard-user-name">User Name</h3>
+                                    <p class="text-xs opacity-50"
+                                        id="dashboard-user-email">user@lumina.com</p>
+                                </div>
+                                <nav class="space-y-2">
+                                    <button onclick="app.showDashTab('orders')"
+                                        class="w-full text-left px-6 py-4 rounded-2xl glass font-bold text-xs uppercase tracking-widest transition-all hover:bg-premium-gold hover:text-black">My
+                                        Orders</button>
+                                    <button
+                                        onclick="app.showDashTab('wishlist')"
+                                        class="w-full text-left px-6 py-4 rounded-2xl glass font-bold text-xs uppercase tracking-widest transition-all hover:bg-premium-gold hover:text-black">Wishlist</button>
+                                    <button onclick="app.showDashTab('profile')"
+                                        class="w-full text-left px-6 py-4 rounded-2xl glass font-bold text-xs uppercase tracking-widest transition-all hover:bg-premium-gold hover:text-black">Profile</button>
+                                    <button onclick="app.handleLogout()"
+                                        class="w-full text-left px-6 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest text-red-500 hover:bg-red-500/10 transition-all">Sign
+                                        Out</button>
+                                </nav>
+                            </aside>
+                            <div class="flex-1 glass p-10 rounded-[3rem]"
+                                id="dash-content"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Page -->
+            <section id="admin-page" class="page-section px-6 md:px-12 py-32">
+                <div class="max-w-7xl mx-auto">
+                    <div class="flex justify-between items-center mb-12">
+                        <div>
+                            <h2 class="text-4xl font-black italic">Product
+                                Management</h2>
+                            <p class="opacity-50 mt-2">Manage your
+                                collection</p>
+                        </div>
+                        <button onclick="app.openAddProductModal()"
+                            class="bg-premium-gold text-premium-900 px-8 py-4 rounded-full font-black uppercase tracking-widest text-xs hover:scale-105 transition-all flex items-center gap-3">
+                            <i class="fa-solid fa-plus"></i> Add Product
+                        </button>
+                    </div>
+
+                    <!-- Admin Stats -->
+                    <div
+                        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                        <div class="glass p-6 rounded-[2rem] admin-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p
+                                        class="text-[10px] uppercase tracking-widest opacity-40 font-black">Total
+                                        Products</p>
+                                    <p class="text-3xl font-black italic mt-2"
+                                        id="admin-total-products">0</p>
+                                </div>
+                                <div
+                                    class="w-12 h-12 bg-premium-gold/20 rounded-2xl flex items-center justify-center text-premium-gold">
+                                    <i class="fa-solid fa-boxes text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="glass p-6 rounded-[2rem] admin-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p
+                                        class="text-[10px] uppercase tracking-widest opacity-40 font-black">Featured</p>
+                                    <p class="text-3xl font-black italic mt-2"
+                                        id="admin-featured-count">0</p>
+                                </div>
+                                <div
+                                    class="w-12 h-12 bg-yellow-500/20 rounded-2xl flex items-center justify-center text-yellow-500">
+                                    <i class="fa-solid fa-star text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="glass p-6 rounded-[2rem] admin-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p
+                                        class="text-[10px] uppercase tracking-widest opacity-40 font-black">Categories</p>
+                                    <p class="text-3xl font-black italic mt-2"
+                                        id="admin-category-count">0</p>
+                                </div>
+                                <div
+                                    class="w-12 h-12 bg-purple-500/20 rounded-2xl flex items-center justify-center text-purple-500">
+                                    <i class="fa-solid fa-tags text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="glass p-6 rounded-[2rem] admin-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p
+                                        class="text-[10px] uppercase tracking-widest opacity-40 font-black">Total
+                                        Value</p>
+                                    <p class="text-3xl font-black italic mt-2"
+                                        id="admin-total-value">₹0</p>
+                                </div>
+                                <div
+                                    class="w-12 h-12 bg-green-500/20 rounded-2xl flex items-center justify-center text-green-500">
+                                    <i class="fa-solid fa-coins text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Table -->
+                    <div class="glass rounded-[2rem] overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="border-b border-white/10">
+                                    <tr
+                                        class="text-left text-[10px] uppercase tracking-widest font-black opacity-40">
+                                        <th class="p-6">Product</th>
+                                        <th class="p-6">Brand</th>
+                                        <th class="p-6">Category</th>
+                                        <th class="p-6">Price</th>
+                                        <th class="p-6">Stock</th>
+                                        <th class="p-6">Status</th>
+                                        <th class="p-6 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-product-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add/Edit Product Modal -->
+                <div id="product-form-modal"
+                    class="fixed inset-0 z-[300] hidden items-center justify-center p-4">
+                    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"
+                        onclick="app.closeProductModal()"></div>
+                    <div
+                        class="relative glass max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-[3rem] p-8 md:p-12">
+                        <button onclick="app.closeProductModal()"
+                            class="absolute top-8 right-8 text-3xl opacity-50 hover:opacity-100">&times;</button>
+                        <h3 class="text-3xl font-black italic mb-8"
+                            id="product-form-title">Add New Product</h3>
+                        <form id="product-form"
+                            onsubmit="app.saveProduct(event)" class="space-y-6">
+                            <input type="hidden" id="edit-product-id">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label
+                                        class="block text-[10px] uppercase tracking-widest font-black opacity-40 mb-2">Product
+                                        Name *</label>
+                                    <input type="text" id="pf-name" required
+                                        placeholder="e.g. Silk Dress"
+                                        class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[10px] uppercase tracking-widest font-black opacity-40 mb-2">Brand
+                                        *</label>
+                                    <input type="text" id="pf-brand" required
+                                        placeholder="e.g. Aura"
+                                        class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label
+                                        class="block text-[10px] uppercase tracking-widest font-black opacity-40 mb-2">Category
+                                        *</label>
+                                    <select id="pf-category" required
+                                        class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                                        <option value>Select Category</option>
+                                        <option value="Women's">Women's</option>
+                                        <option value="Men's">Men's</option>
+                                        <option
+                                            value="Accessories">Accessories</option>
+                                        <option value="Luxury">Luxury</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[10px] uppercase tracking-widest font-black opacity-40 mb-2">Image
+                                        URL *</label>
+                                    <input type="url" id="pf-image" required
+                                        placeholder="https://images.unsplash.com/..."
+                                        class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <label
+                                        class="block text-[10px] uppercase tracking-widest font-black opacity-40 mb-2">Price
+                                        (USD) *</label>
+                                    <input type="number" id="pf-price" required
+                                        min="0" step="0.01" placeholder="2500"
+                                        class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[10px] uppercase tracking-widest font-black opacity-40 mb-2">Old
+                                        Price (USD)</label>
+                                    <input type="number" id="pf-oldprice"
+                                        min="0" step="0.01" placeholder="3500"
+                                        class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[10px] uppercase tracking-widest font-black opacity-40 mb-2">Stock
+                                        *</label>
+                                    <input type="number" id="pf-stock" required
+                                        min="0" placeholder="10"
+                                        class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" id="pf-featured"
+                                        class="w-5 h-5 accent-premium-gold">
+                                    <span class="text-sm font-bold">Featured
+                                        Product</span>
+                                </label>
+                            </div>
+                            <div class="flex gap-4 pt-4">
+                                <button type="submit"
+                                    class="flex-1 bg-premium-gold text-premium-900 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:scale-105 transition-transform">Save
+                                    Product</button>
+                                <button type="button"
+                                    onclick="app.closeProductModal()"
+                                    class="flex-1 glass py-4 rounded-2xl font-black uppercase tracking-widest text-xs border border-white/10">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Delete Confirmation -->
+                <div id="delete-confirm-modal"
+                    class="fixed inset-0 z-[300] hidden items-center justify-center p-4">
+                    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"
+                        onclick="app.closeDeleteModal()"></div>
+                    <div
+                        class="relative glass max-w-md w-full rounded-[3rem] p-8 md:p-12 text-center">
+                        <div
+                            class="w-20 h-20 bg-red-500/20 text-red-500 rounded-full flex items-center justify-center mx-auto text-4xl mb-6">
+                            <i class="fa-solid fa-trash"></i>
+                        </div>
+                        <h3 class="text-2xl font-black italic mb-2">Delete
+                            Product</h3>
+                        <p class="opacity-50 text-sm mb-8">Are you sure? This
+                            cannot be undone.</p>
+                        <input type="hidden" id="delete-product-id">
+                        <div class="flex gap-4">
+                            <button onclick="app.confirmDelete()"
+                                class="flex-1 bg-red-500 text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:scale-105 transition-transform">Delete</button>
+                            <button onclick="app.closeDeleteModal()"
+                                class="flex-1 glass py-4 rounded-2xl font-black uppercase tracking-widest text-xs border border-white/10">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Product Modal -->
+            <div id="product-modal"
+                class="fixed inset-0 z-[200] hidden items-center justify-center p-4">
+                <div class="absolute inset-0 bg-black/80 backdrop-blur-md"
+                    onclick="app.closeModal()"></div>
+                <div
+                    class="relative glass max-w-5xl w-full max-h-[90vh] overflow-y-auto rounded-[3rem] p-8 md:p-12">
+                    <button onclick="app.closeModal()"
+                        class="absolute top-8 right-8 text-3xl opacity-50 hover:opacity-100">&times;</button>
+                    <div id="modal-content"
+                        class="grid grid-cols-1 lg:grid-cols-2 gap-12"></div>
+                </div>
+            </div>
+
+            <!-- Cart Drawer -->
+            <div id="cart-drawer" class="fixed inset-0 z-[250] invisible">
+                <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                    onclick="app.toggleCart()"></div>
+                <div
+                    class="absolute top-0 right-0 h-full w-full max-w-md glass border-l border-white/10 translate-x-full transition-transform duration-500 flex flex-col">
+                    <div
+                        class="p-8 border-b border-white/10 flex justify-between items-center">
+                        <h2
+                            class="text-xl font-black uppercase tracking-tighter italic">Your
+                            Bag</h2>
+                        <button onclick="app.toggleCart()"
+                            class="text-2xl">&times;</button>
+                    </div>
+                    <div id="cart-items"
+                        class="flex-1 overflow-y-auto p-8 space-y-6"></div>
+                    <div class="p-8 border-t border-white/10 space-y-6">
+                        <div
+                            class="flex justify-between items-center text-xl font-bold">
+                            <span>Total</span>
+                            <span id="cart-total-price">₹0.00</span>
+                        </div>
+                        <button onclick="app.openCheckout()"
+                            class="w-full bg-premium-900 dark:bg-white text-premium-100 dark:text-premium-900 py-5 rounded-full font-black uppercase tracking-widest text-xs hover:scale-105 transition-transform">Proceed
+                            to Checkout</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checkout Page -->
+            <section id="checkout-page"
+                class="page-section px-6 md:px-12 py-32">
+                <div class="max-w-4xl mx-auto">
+                    <div class="flex justify-between items-center mb-12">
+                        <h2 class="text-4xl font-black italic">Checkout</h2>
+                        <div
+                            class="flex items-center gap-4 text-xs font-bold uppercase tracking-widest">
+                            <span id="check-step-1"
+                                class="text-premium-gold underline underline-offset-8">Shipping</span>
+                            <i class="fa-solid fa-chevron-right opacity-30"></i>
+                            <span id="check-step-2"
+                                class="opacity-30">Payment</span>
+                            <i class="fa-solid fa-chevron-right opacity-30"></i>
+                            <span id="check-step-3"
+                                class="opacity-30">Confirm</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                        <div class="lg:col-span-2 space-y-8"
+                            id="checkout-form-container"></div>
+                        <div
+                            class="glass p-8 rounded-[2rem] h-fit sticky top-32">
+                            <h3 class="font-black italic mb-6">Order
+                                Summary</h3>
+                            <div id="checkout-summary-items"
+                                class="space-y-4 mb-6 max-h-60 overflow-y-auto pr-2"></div>
+                            <div
+                                class="space-y-3 pt-6 border-t border-white/10 text-sm">
+                                <div
+                                    class="flex justify-between opacity-60"><span>Subtotal</span><span
+                                        id="check-sub">₹0</span></div>
+                                <div
+                                    class="flex justify-between opacity-60"><span>Shipping</span><span
+                                        class="text-green-500 font-bold">FREE</span></div>
+                                <div
+                                    class="flex justify-between text-xl font-black pt-4 border-t border-white/10"><span>Total</span><span
+                                        id="check-total">₹0</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Notifications -->
+            <div id="notif-center"
+                class="fixed top-24 right-8 z-[300] space-y-4 pointer-events-none"></div>
+
+            <!-- Footer -->
+            <footer
+                class="bg-premium-900 text-white pt-32 pb-12 px-6 md:px-12 border-t border-white/5">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-32">
+                    <div>
+                        <h2
+                            class="text-3xl font-black italic tracking-tighter mb-8">LUMINA</h2>
+                        <p
+                            class="text-white/40 leading-relaxed text-sm">Experience
+                            the convergence of heritage craftsmanship and
+                            futuristic design.</p>
+                    </div>
+                    <div>
+                        <h4
+                            class="font-bold text-xs uppercase tracking-[0.3em] mb-8 text-premium-gold">Collections</h4>
+                        <ul class="space-y-4 text-sm text-white/40">
+                            <li><a href="#"
+                                    class="hover:text-white transition-colors">Latest
+                                    Arrivals</a></li>
+                            <li><a href="#"
+                                    class="hover:text-white transition-colors">Haute
+                                    Couture</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4
+                            class="font-bold text-xs uppercase tracking-[0.3em] mb-8 text-premium-gold">Service</h4>
+                        <ul class="space-y-4 text-sm text-white/40">
+                            <li><a href="#"
+                                    class="hover:text-white transition-colors">Order
+                                    Concierge</a></li>
+                            <li><a href="#"
+                                    class="hover:text-white transition-colors">Privacy</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4
+                            class="font-bold text-xs uppercase tracking-[0.3em] mb-8 text-premium-gold">Subscribe</h4>
+                        <p class="text-xs text-white/40 mb-6">Receive private
+                            drop invitations.</p>
+                        <div class="flex border-b border-white/20 pb-2">
+                            <input type="email" placeholder="your@email.com"
+                                class="bg-transparent flex-1 outline-none text-xs">
+                            <button
+                                class="text-[10px] font-black uppercase tracking-widest text-premium-gold">Join</button>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="text-center pt-12 border-t border-white/5 text-[10px] uppercase tracking-[0.5em] text-white/20">
+                    &copy; 2025 LUMINA. ALL RIGHTS RESERVED.
+                </div>
+            </footer>
+        </main>
+
+        <script>
+    const app = {
+        data: {
+            products: [],
+            users: JSON.parse(localStorage.getItem('lumina_users')) || [],
+            currentUser: JSON.parse(localStorage.getItem('lumina_current_user')) || null,
+            categories: [
+                { name: "Women's", img: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=600" },
+                { name: "Men's", img: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=600" },
+                { name: "Accessories", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=600" },
+                { name: "Luxury", img: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=600" }
+            ],
+            cart: JSON.parse(localStorage.getItem('lumina_cart')) || [],
+            wishlist: JSON.parse(localStorage.getItem('lumina_wishlist')) || [],
+            orders: JSON.parse(localStorage.getItem('lumina_orders')) || [],
+            theme: localStorage.getItem('lumina_theme') || 'dark',
+            currentPage: 'home',
+            inrRate: 85,
+            nextId: 51,
+            checkoutStep: 1
+        },
+
+formatPrice(amount) {
+    return '₹' + amount.toLocaleString('en-IN');
+},
+        // formatPriceRaw(amount) {
+        //     const inr = amount * this.data.inrRate;
+        //     return Math.round(inr).toLocaleString('en-IN');
+        // },
+
+        init() {
+            this.generateProducts();
+            this.applyTheme();
+            this.renderCategories();
+            this.renderFeatured();
+            this.updateCartUI();
+            this.renderAdmin();
+            this.checkAuthStatus();
+            
+            setTimeout(() => {
+                document.getElementById('screen-loader').style.opacity = '0';
+                setTimeout(() => document.getElementById('screen-loader').remove(), 700);
+            }, 1500);
+        },
+
+        generateProducts() {
+    this.data.products = [
+        // ============================================
+        // WOMEN'S COLLECTION (1-20)
+        // ============================================
+        { id: 1, name: "White Floral Printed Khadi Cotton Co-Ord Set", category: "Women's", brand: "Aura", price: 2500, oldPrice: 3500, rating: "4.8", reviews: 156, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/670fa0974e510d64201e4b2c/cat_img/CORSET_SD_1_QKZ42ZD3DY_2025-07-26_1.jpeg", isFeatured: true, stock: 10 },
+        { id: 2, name: "Brown Glow Embroidery Foux Georgette Suit Set", category: "Women's", brand: "Couture", price: 8500, oldPrice: 10500, rating: "4.9", reviews: 312, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/670fa0974e510d64201e4b2c/cat_img/Brown_Glow_Embroidery_Foux_Georgette_SuitSet_NTQ9RS9260_2025-08-11_1.jpeg", isFeatured: true, stock: 5 },
+        { id: 3, name: "White Heavy Chinon Silk With Heavy Embroidery", category: "Women's", brand: "Elysium", price: 4200, oldPrice: 5500, rating: "4.7", reviews: 89, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/670fa0974e510d64201e4b2c/cat_img/Presenting_New__Heavy_Embroidery_Sequence_Work_Top_Sharara_And_Dupatta_Set_Fully_Stitched_Ready_To_Wear_Collection_GVPBAB09E9_2025-02-11_1.jpeg", isFeatured: false, stock: 7 },
+        { id: 4, name: "Pink & Yellow Punjabi Style Pure Vichitra Silk Suit", category: "Women's", brand: "Zenith", price: 3200, oldPrice: 4200, rating: "4.6", reviews: 134, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_SSR_485_1750680187622_k036n4zpw0m0egl.jpg", isFeatured: false, stock: 12 },
+        { id: 5, name: "Pink Designer Heavy Georgette Embroidered Sharara", category: "Women's", brand: "Vantage", price: 5500, oldPrice: 7500, rating: "4.9", reviews: 234, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/670fa0974e510d64201e4b2c/cat_img/VF_105_pink_1755520908495_ol6rdsxynm0n4il.jpg", isFeatured: true, stock: 4 },
+        { id: 6, name: "White Heavy Faux Georgette Top Plazzo & Dupatta", category: "Women's", brand: "Elysium", price: 6200, oldPrice: 8200, rating: "4.8", reviews: 189, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_AD_170_1750680580094_meph0fnu6kud0ff.jpg", isFeatured: false, stock: 5 },
+        { id: 7, name: "Blue Designer Chinnon Silk Embroidered Anarkali", category: "Women's", brand: "Aura", price: 4500, oldPrice: 5800, rating: "4.6", reviews: 98, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/670fa0974e510d64201e4b2c/cat_img/VF_107_Blue_1755596835731_msqo2kyni88yzn9.jpg", isFeatured: false, stock: 7 },
+        { id: 8, name: "Bottle Blue Pure Jimmy Choo With Heavy Embroidery", category: "Women's", brand: "Luxe", price: 12000, oldPrice: 15000, rating: "4.9", reviews: 423, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/Pure_Jimmy_Choo_With_Heavy_Embroidery_5_mm_Sequence_Work_With_Diamond____Moti_Hand_Work_With_Fancy_Sleeves__MUBY34M1A8_2025-06-16_1.jpeg", isFeatured: true, stock: 3 },
+        { id: 9, name: "Red Heavy Faux Georgette With Heavy Embroidery Work", category: "Women's", brand: "Vantage", price: 4800, oldPrice: 6000, rating: "4.7", reviews: 178, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/Heavy_Faux_Georgette_With_Heavy_Embroidery_Coding_Dori_Sequence_Work_With_Rivet_Moti_Work_Full_Sleeve_5GSZCXRC3V_2025-06-16_1.jpeg", isFeatured: true, stock: 9 },
+        { id: 10, name: "Green Heavy Chinon Silk With Moti Work", category: "Women's", brand: "Atelier", price: 1800, oldPrice: 2500, rating: "4.3", reviews: 45, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/HAVY_CHINON_SILK_WITH_HAVY_EMBROIDERY_WORK_AND_MOTI___WORK__5NZQCW2Q0W_2025-06-16_1.jpeg", isFeatured: false, stock: 20 },
+        { id: 11, name: "Maroon Heavy Faux Georgette With Coding Dori Work", category: "Women's", brand: "Monolith", price: 8500, oldPrice: 10500, rating: "4.8", reviews: 167, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/Heavy_Faux_Georgette_With_Heavy_Embroidery_Coding_Dori_Sequence_Work_With_Rivet_Moti_Work_Full_Sleeve_CNNEYFNCBG_2025-06-16_1.jpeg", isFeatured: false, stock: 6 },
+        { id: 12, name: "Admiring White Thread Work Palazzo Suit", category: "Women's", brand: "Monolith", price: 18000, oldPrice: 22000, rating: "4.9", reviews: 289, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_AD_140_White_1750680076271_mywh0arobsd0bfw.jpg", isFeatured: true, stock: 3 },
+        { id: 13, name: "Purple Heavy Faux Georgette Pakistani Salwar Suit", category: "Women's", brand: "Luxe", price: 12000, oldPrice: 16000, rating: "4.9", reviews: 378, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_181_ST_Purple_1750680071428_2lqg2ueocnwecfr.jpg", isFeatured: false, stock: 4 },
+        { id: 14, name: "White Heavy Faux Georgette Designer Gown", category: "Women's", brand: "Elysium", price: 15000, oldPrice: 19000, rating: "4.8", reviews: 234, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_AD_176_1750680058005_a6zs3z273kji5cs.jpg", isFeatured: false, stock: 3 },
+        { id: 15, name: "Red Designer Chinnon Silk Anarkali Suit", category: "Women's", brand: "Vantage", price: 35000, oldPrice: 45000, rating: "5.0", reviews: 678, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/670fa0974e510d64201e4b2c/cat_img/VF_107_Red_1755596835366_8o6wqh39j0hk2at.jpg", isFeatured: false, stock: 1 },
+        { id: 16, name: "Marron Ready Made Pure Chinnon Silk Sharara", category: "Women's", brand: "Vantage", price: 35000, oldPrice: 45000, rating: "5.0", reviews: 678, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_SSR_449_Maroon_1750680426353_p7m4gs7t7idhn8f.jpg", isFeatured: false, stock: 1 },
+        { id: 17, name: "Pink Heavy Chinon Silk With Heavy Embroidery", category: "Women's", brand: "Vantage", price: 28000, oldPrice: 35000, rating: "4.9", reviews: 456, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_SSR_449_Pink_1750680528247_62w0jo7vypmub6r.jpg", isFeatured: false, stock: 3 },
+        { id: 18, name: "Nevy Blue Pure Natural Crep Silk With Sequence Work", category: "Women's", brand: "Elysium", price: 32000, oldPrice: 42000, rating: "4.9", reviews: 534, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/Pure_Natural_Crep_Silk_With_Embroidery_Sequence_Work_With_Full_Sleeve_TIDP1YE1ZH_2025-06-16_1.jpeg", isFeatured: false, stock: 2 },
+        { id: 19, name: "Blue Ready Made Pure Chinnon Silk Sharara", category: "Women's", brand: "Monolith", price: 38000, oldPrice: 48000, rating: "4.8", reviews: 345, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_SSR_449_Blue_1750680253435_p3jc3ygvekknui6.jpg", isFeatured: false, stock: 2 },
+        { id: 20, name: "Light Pink Heavy Chinon Silk With Embroidery", category: "Women's", brand: "Aura", price: 25000, oldPrice: 32000, rating: "4.7", reviews: 289, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/AOwF8ogl_I1EWQOGQ9O_2025-07-09_1.jpg", isFeatured: false, stock: 4 },
+
+        // ============================================
+        // MEN'S COLLECTION (21-30)
+        // ============================================
+        { id: 21, name: "Maroon Heavy Faux Georgette With Heavy Embroidery", category: "Women's", brand: "Monolith", price: 42000, oldPrice: 52000, rating: "4.9", reviews: 456, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/Heavy_Faux_Georgette_With_Heavy_Embroidery_Coding_Dori_Sequence_Work_With_Rivet_Moti_Work_Full_Sleeve_CNNEYFNCBG_2025-06-16_1.jpeg", isFeatured: true, stock: 3 },
+        { id: 22, name: "Black Heavy Chinon Silk With Heavy Embroidery", category: "Women's", brand: "Elysium", price: 38000, oldPrice: 48000, rating: "4.7", reviews: 234, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/HAVY_CHINON_SILK_WITH_HAVY_EMBROIDERY_WORK_AND_MOTI___WORK__6FIU47HERV_2025-06-16_1.jpeg", isFeatured: false, stock: 4 },
+        { id: 23, name: "Admiring Peach Thread Work Palazzo Suit", category: "Women's", brand: "Monolith", price: 32000, oldPrice: 42000, rating: "4.9", reviews: 345, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_AD_140_1750679696617_vm06janvkaku9hf.jpg", isFeatured: false, stock: 5 },
+        { id: 24, name: "Dark Yellow Pure Soft Romansilk Chanderi Print", category: "Women's", brand: "Monolith", price: 12000, oldPrice: 16000, rating: "4.4", reviews: 89, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/PURE_SOFT_ROMANSILK_CHANDERI_DISCHARGE_PRINT_FABRIC_FULLY_FLAIR_KEDIYA_STYLE_KURTA_WITH_DUPPTA_SET_PALAZZO_READY_TO_WEAR_VJ0N17SHN8_2025-06-16_1.jpeg", isFeatured: false, stock: 10 },
+        { id: 25, name: "White Premium Designer Co-Ord Set Khadi Cotton", category: "Women's", brand: "Aura", price: 25000, oldPrice: 32000, rating: "4.6", reviews: 156, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/670fa0974e510d64201e4b2c/cat_img/VF_104_White_1755500090643_o76idknngvrrpri.jpg", isFeatured: false, stock: 6 },
+        { id: 26, name: "Black Pure Chinnon Silk Heavy Sequence Sharara", category: "Women's", brand: "Atelier", price: 6000, oldPrice: 8000, rating: "4.3", reviews: 67, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/BxAB8_f5_VF5QEBJF8Z_2025-07-09_1.jpg", isFeatured: false, stock: 20 },
+        { id: 27, name: "Light Green Heavy Georgette With Embroidery", category: "Women's", brand: "Vantage", price: 28000, oldPrice: 36000, rating: "4.8", reviews: 234, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/Heavy_Georgette_With_Full_Heavy_Embroidery_Rembo_Sequence_Work_With_Moti_Work_with_Sleeve_Y5PYNWIA2A_2025-06-16_1.jpeg", isFeatured: false, stock: 4 },
+        { id: 28, name: "Grey New Designer Heavy Fuax Georgette Salwar", category: "Women's", brand: "Elysium", price: 35000, oldPrice: 45000, rating: "4.7", reviews: 189, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/NEW_DESIGNER_HEAVY_FUAX_GEORGETTE_DIGITAL_PRINT_HAND_WORK_SALWAR_SUIT_TDN8XT7NJ7_2025-06-16_1.jpeg", isFeatured: false, stock: 3 },
+        { id: 29, name: "Yellow Heavy Chinon Silk With Moti Work", category: "Women's", brand: "Zenith", price: 15000, oldPrice: 20000, rating: "4.5", reviews: 134, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/HAVY_CHINON_SILK_WITH_HAVY_EMBROIDERY_WORK_AND_MOTI___WORK__CWNU9WTXLF_2025-06-16_1.jpeg", isFeatured: false, stock: 8 },
+        { id: 30, name: "Black Ready Made Pure Chinnon Silk Sharara", category: "Women's", brand: "Vantage", price: 8000, oldPrice: 12000, rating: "4.4", reviews: 98, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_SSR_449_1750679993610_mbna3wz7ljuej04.jpg", isFeatured: false, stock: 12 },
+
+        // ============================================
+        // ACCESSORIES COLLECTION (31-40)
+        // ============================================
+        { id: 31, name: "White Heavy Chinon Silk With Heavy Embroidery", category: "Women's", brand: "Vantage", price: 25000, oldPrice: 32000, rating: "4.8", reviews: 289, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/5rQAGTK4_M754KU3PX2_2025-07-09_1.jpg", isFeatured: false, stock: 5 },
+        { id: 32, name: "Stylish Mehendi Heavy Chinon Silk With Embroidery", category: "Women's", brand: "Luxe", price: 55000, oldPrice: 75000, rating: "5.0", reviews: 678, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_SSR_449_Mehendi_1750680425705_2lb9mxy68eoksfa.jpg", isFeatured: true, stock: 2 },
+        { id: 33, name: "Wine Ready Made Pure Chinnon Silk Sharara", category: "Women's", brand: "Luxe", price: 85000, oldPrice: 105000, rating: "4.9", reviews: 534, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/670fa0974e510d64201e4b2c/cat_img/Presenting_New__Heavy_Embroidery_Sequence_Work_Top_Sharara_And_Dupatta_Set_Fully_Stitched_Ready_To_Wear_Collection_RBJ0CNSY2Y_2025-02-11_1.jpeg", isFeatured: false, stock: 1 },
+        { id: 34, name: "White Heavy Chinon Silk With Embroidery Work", category: "Women's", brand: "Vantage", price: 15000, oldPrice: 20000, rating: "4.5", reviews: 123, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/670fa0974e510d64201e4b2c/cat_img/Presenting_New__Heavy_Embroidery_Sequence_Work_Top_Sharara_And_Dupatta_Set_Fully_Stitched_Ready_To_Wear_Collection_GVPBAB09E9_2025-02-11_1.jpeg", isFeatured: false, stock: 7 },
+        { id: 35, name: "Pink Pure Romansilk Chanderi Anarkali Set", category: "Women's", brand: "Luxe", price: 95000, oldPrice: 120000, rating: "5.0", reviews: 789, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/PURE_ROMANSILK_CHANDERI_FABRIC_FULLY_FLAIR_ANARKALI_WITH_DUPPTA_SET_PENT_READY_TO_WEAR_GQ3OZXTTO4_2025-06-16_1.jpeg", isFeatured: false, stock: 1 },
+        { id: 36, name: "Stylish Mehendi Heavy Chinon Silk With Work", category: "Women's", brand: "Luxe", price: 55000, oldPrice: 75000, rating: "5.0", reviews: 678, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_SSR_449_Mehendi_1750680425705_2lb9mxy68eoksfa.jpg", isFeatured: true, stock: 2 },
+        { id: 37, name: "Wine Ready Made Pure Chinnon Silk Heavy Work", category: "Women's", brand: "Luxe", price: 85000, oldPrice: 105000, rating: "4.9", reviews: 534, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/670fa0974e510d64201e4b2c/cat_img/Presenting_New__Heavy_Embroidery_Sequence_Work_Top_Sharara_And_Dupatta_Set_Fully_Stitched_Ready_To_Wear_Collection_RBJ0CNSY2Y_2025-02-11_1.jpeg", isFeatured: false, stock: 1 },
+        { id: 38, name: "Black Ready Made Pure Chinnon Silk Sharara", category: "Women's", brand: "Vantage", price: 8000, oldPrice: 12000, rating: "4.4", reviews: 98, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_SSR_449_1750679993610_mbna3wz7ljuej04.jpg", isFeatured: false, stock: 12 },
+        { id: 39, name: "Black Pure Chinnon Silk Heavy Sequence Sharara", category: "Women's", brand: "Atelier", price: 6000, oldPrice: 8000, rating: "4.3", reviews: 67, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/BxAB8_f5_VF5QEBJF8Z_2025-07-09_1.jpg", isFeatured: false, stock: 20 },
+        { id: 40, name: "Wine Ready Made Pure Chinnon Silk Work", category: "Women's", brand: "Luxe", price: 85000, oldPrice: 105000, rating: "4.9", reviews: 534, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/670fa0974e510d64201e4b2c/cat_img/Presenting_New__Heavy_Embroidery_Sequence_Work_Top_Sharara_And_Dupatta_Set_Fully_Stitched_Ready_To_Wear_Collection_RBJ0CNSY2Y_2025-02-11_1.jpeg", isFeatured: false, stock: 1 },
+
+        // ============================================
+        // LUXURY COLLECTION (41-50)
+        // ============================================
+        { id: 41, name: "Black Pure Chinnon Silk Heavy Sequence", category: "Women's", brand: "Atelier", price: 6000, oldPrice: 8000, rating: "4.3", reviews: 67, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/BxAB8_f5_VF5QEBJF8Z_2025-07-09_1.jpg", isFeatured: false, stock: 20 },
+        { id: 42, name: "Black Ready Made Pure Chinnon Silk Sharara", category: "Women's", brand: "Vantage", price: 8000, oldPrice: 12000, rating: "4.4", reviews: 98, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_SSR_449_1750679993610_mbna3wz7ljuej04.jpg", isFeatured: false, stock: 12 },
+        { id: 43, name: "Handwoven Pashmina Shawl With Embroidery", category: "Women's", brand: "Zenith", price: 22000, oldPrice: 28000, rating: "4.7", reviews: 234, image: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&q=80&w=800", isFeatured: false, stock: 4 },
+        { id: 44, name: "Grey Heavy Pur Dual Tone Peding Chinon Silk", category: "Women's", brand: "Zenith", price: 42000, oldPrice: 52000, rating: "4.9", reviews: 567, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/Heavy_Pur_Dual_Tone_Peding_Chinon_Silk_With_Embroidery_5_mm_Sequence___Coding_Dori_Work_With_Full_Sleeves_With_Fancy_Latkan___Tassels__VGN2NXLFZ2_2025-06-16_1.jpeg", isFeatured: false, stock: 1 },
+        { id: 45, name: "Teal Blue Ready Made Pure Chinnon Silk Sharara", category: "Women's", brand: "Vantage", price: 40000, oldPrice: 50000, rating: "5.0", reviews: 789, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_SSR_449_Teal_1750680523614_9xzpk31fymvwd7h.jpg", isFeatured: false, stock: 1 },
+        { id: 46, name: "Black Ready Made Pure Chinnon Silk Work", category: "Women's", brand: "Vantage", price: 8000, oldPrice: 12000, rating: "4.4", reviews: 98, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_SSR_449_1750679993610_mbna3wz7ljuej04.jpg", isFeatured: false, stock: 12 },
+        { id: 47, name: "Black Ready Made Pure Chinnon Silk Heavy", category: "Women's", brand: "Vantage", price: 8000, oldPrice: 12000, rating: "4.4", reviews: 98, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_SSR_449_1750679993610_mbna3wz7ljuej04.jpg", isFeatured: false, stock: 12 },
+        { id: 48, name: "Grey Heavy Pur Dual Tone Peding Chinon", category: "Women's", brand: "Zenith", price: 42000, oldPrice: 52000, rating: "4.9", reviews: 567, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/Heavy_Pur_Dual_Tone_Peding_Chinon_Silk_With_Embroidery_5_mm_Sequence___Coding_Dori_Work_With_Full_Sleeves_With_Fancy_Latkan___Tassels__VGN2NXLFZ2_2025-06-16_1.jpeg", isFeatured: false, stock: 1 },
+        { id: 49, name: "Embroidered Silk Scarf", category: "Women's", brand: "Aura", price: 5000, oldPrice: 7000, rating: "4.3", reviews: 78, image: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&q=80&w=800", isFeatured: false, stock: 15 },
+        { id: 50, name: "Black Ready Made Pure Chinnon Silk Sharara", category: "Women's", brand: "Vantage", price: 8000, oldPrice: 12000, rating: "4.4", reviews: 98, image: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-1200,fo-auto/684be374502e8f1d94083de5/cat_img/RAV_SSR_449_1750679993610_mbna3wz7ljuej04.jpg", isFeatured: false, stock: 12 }
+    ];
+},
+
+        // ============================================
+        // AUTH FUNCTIONS
+        // ============================================
+        showAuthTab(tab) {
+            const loginTab = document.getElementById('login-tab');
+            const registerTab = document.getElementById('register-tab');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+
+            if (tab === 'login') {
+                loginTab.classList.add('tab-active');
+                loginTab.classList.remove('opacity-40');
+                registerTab.classList.remove('tab-active');
+                registerTab.classList.add('opacity-40');
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+            } else {
+                registerTab.classList.add('tab-active');
+                registerTab.classList.remove('opacity-40');
+                loginTab.classList.remove('tab-active');
+                loginTab.classList.add('opacity-40');
+                registerForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+            }
+        },
+
+        handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-pass').value;
+
+            const user = this.data.users.find(u => u.email === email && u.password === password);
+            if (user) {
+                this.data.currentUser = user;
+                localStorage.setItem('lumina_current_user', JSON.stringify(user));
+                this.checkAuthStatus();
+                this.showNotification(`Welcome back, ${user.name}!`);
+                this.navigate('profile');
+            } else {
+                this.showNotification('Invalid email or password!');
+            }
+        },
+
+        handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-pass').value;
+            const confirm = document.getElementById('reg-pass-confirm').value;
+
+            if (password !== confirm) {
+                this.showNotification('Passwords do not match!');
+                return;
+            }
+
+            if (this.data.users.find(u => u.email === email)) {
+                this.showNotification('Email already registered!');
+                return;
+            }
+
+            const newUser = { name, email, password, orders: [], createdAt: new Date().toISOString() };
+            this.data.users.push(newUser);
+            localStorage.setItem('lumina_users', JSON.stringify(this.data.users));
+
+            this.data.currentUser = newUser;
+            localStorage.setItem('lumina_current_user', JSON.stringify(newUser));
+            this.checkAuthStatus();
+            this.showNotification(`Welcome, ${name}! Account created successfully.`);
+            this.navigate('profile');
+        },
+
+        handleLogout() {
+            this.data.currentUser = null;
+            localStorage.removeItem('lumina_current_user');
+            this.checkAuthStatus();
+            this.showNotification('Logged out successfully.');
+            this.navigate('home');
+        },
+
+        checkAuthStatus() {
+            const navName = document.getElementById('nav-user-name');
+            const userDashboard = document.getElementById('user-dashboard');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const loginTab = document.getElementById('login-tab');
+            const registerTab = document.getElementById('register-tab');
+
+            if (this.data.currentUser) {
+                navName.innerText = this.data.currentUser.name.split(' ')[0];
+                userDashboard.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                registerForm.classList.add('hidden');
+                loginTab.classList.add('hidden');
+                registerTab.classList.add('hidden');
+                document.getElementById('dashboard-user-name').innerText = this.data.currentUser.name;
+                document.getElementById('dashboard-user-email').innerText = this.data.currentUser.email;
+                document.getElementById('user-initial').innerText = this.data.currentUser.name.charAt(0);
+                this.showDashTab('orders');
+            } else {
+                navName.innerText = 'Sign In';
+                userDashboard.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+                loginTab.classList.remove('hidden');
+                registerTab.classList.remove('hidden');
+                loginTab.classList.add('tab-active');
+                loginTab.classList.remove('opacity-40');
+                registerTab.classList.remove('tab-active');
+                registerTab.classList.add('opacity-40');
+            }
+        },
+
+        showDashTab(tab) {
+            const content = document.getElementById('dash-content');
+            
+            if (tab === 'orders') {
+                const userOrders = this.data.orders.filter(o => o.userEmail === this.data.currentUser?.email);
+                if (userOrders.length === 0) {
+                    content.innerHTML = `
+                        <div class="text-center py-12">
+                            <i class="fa-solid fa-box-open text-4xl opacity-20 mb-4"></i>
+                            <h3 class="text-xl font-bold">No orders yet</h3>
+                            <p class="opacity-50 text-sm mt-2">Your collection journey begins in the shop.</p>
+                            <button onclick="app.navigate('shop')" class="mt-8 bg-premium-gold text-premium-900 px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest">Shop Now</button>
+                        </div>
+                    `;
+                } else {
+                    content.innerHTML = `<h3 class="text-2xl font-black italic mb-8">My Orders</h3>` + 
+                        userOrders.map(o => `
+                            <div class="glass p-6 rounded-[2rem] mb-4 transition-all hover:border-premium-gold border border-transparent">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-[10px] uppercase font-black tracking-widest opacity-40">Order #${o.id}</p>
+                                        <p class="text-xs opacity-50 mt-1">${new Date(o.date).toLocaleDateString()}</p>
+                                        <p class="font-bold text-sm mt-1">Status: <span class="${o.status === 'Delivered' ? 'text-green-500' : 'text-premium-gold'} uppercase text-[10px]">${o.status}</span></p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-black text-lg">${this.formatPrice(o.total)}</p>
+                                        <p class="text-[10px] opacity-40">${o.items?.length || 0} items</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 flex gap-2 flex-wrap">
+                                    ${o.items?.slice(0, 3).map(item => `
+                                        <div class="w-12 h-12 rounded-lg bg-white/5 overflow-hidden">
+                                            <img src="${item.image}" class="w-full h-full object-cover">
+                                        </div>
+                                    `).join('')}
+                                    ${o.items?.length > 3 ? `<div class="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center text-[10px] font-black">+${o.items.length - 3}</div>` : ''}
+                                </div>
+                            </div>
+                        `).join('');
+                }
+            }
+            
+            if (tab === 'wishlist') {
+                const wishlistItems = this.data.wishlist.map(id => this.data.products.find(p => p.id === id)).filter(Boolean);
+                if (wishlistItems.length === 0) {
+                    content.innerHTML = `
+                        <div class="text-center py-12">
+                            <i class="fa-regular fa-heart text-4xl opacity-20 mb-4"></i>
+                            <h3 class="text-xl font-bold">Wishlist is empty</h3>
+                            <p class="opacity-50 text-sm mt-2">Start saving your favorite pieces.</p>
+                            <button onclick="app.navigate('shop')" class="mt-8 bg-premium-gold text-premium-900 px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest">Explore Collection</button>
+                        </div>
+                    `;
+                } else {
+                    content.innerHTML = `<h3 class="text-2xl font-black italic mb-8">Saved Creations</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-6">` + 
+                        wishlistItems.map(p => this.createProductCard(p)).join('') + `</div>`;
+                }
+            }
+
+            if (tab === 'profile') {
+                content.innerHTML = `
+                    <h3 class="text-2xl font-black italic mb-8">My Profile</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-6 p-6 glass rounded-[2rem]">
+                            <div class="w-24 h-24 bg-premium-gold rounded-full flex items-center justify-center text-4xl font-black text-premium-900">
+                                ${this.data.currentUser?.name?.charAt(0) || 'U'}
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold">${this.data.currentUser?.name || 'User'}</h4>
+                                <p class="opacity-50">${this.data.currentUser?.email || 'user@lumina.com'}</p>
+                                <p class="text-[10px] opacity-40 mt-2">Member since ${this.data.currentUser?.createdAt ? new Date(this.data.currentUser.createdAt).toLocaleDateString() : 'N/A'}</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="glass p-6 rounded-[2rem] text-center">
+                                <p class="text-2xl font-black italic">${this.data.orders.filter(o => o.userEmail === this.data.currentUser?.email).length}</p>
+                                <p class="text-[10px] uppercase tracking-widest opacity-40">Orders</p>
+                            </div>
+                            <div class="glass p-6 rounded-[2rem] text-center">
+                                <p class="text-2xl font-black italic">${this.data.wishlist.length}</p>
+                                <p class="text-[10px] uppercase tracking-widest opacity-40">Wishlist</p>
+                            </div>
+                            <div class="glass p-6 rounded-[2rem] text-center">
+                                <p class="text-2xl font-black italic">${this.data.cart.reduce((acc, item) => acc + item.qty, 0)}</p>
+                                <p class="text-[10px] uppercase tracking-widest opacity-40">Cart Items</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        },
+
+        // ============================================
+        // CHECKOUT FUNCTIONS
+        // ============================================
+        openCheckout() {
+            if (this.data.cart.length === 0) {
+                this.showNotification("Your bag is empty!");
+                return;
+            }
+            if (!this.data.currentUser) {
+                this.showNotification("Please sign in to checkout!");
+                this.navigate('profile');
+                return;
+            }
+            this.navigate('checkout');
+            this.renderCheckout();
+            this.toggleCart();
+        },
+
+        renderCheckout() {
+            const subtotal = this.data.cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            const total = subtotal;
+
+            document.getElementById('check-sub').innerText = this.formatPrice(subtotal);
+            document.getElementById('check-total').innerText = this.formatPrice(total);
+
+            document.getElementById('checkout-summary-items').innerHTML = this.data.cart.map(item => {
+                const priceInr = this.formatPrice(item.price * item.qty);
+                return `
+                    <div class="flex gap-4 items-center">
+                        <div class="w-12 h-12 bg-white/5 rounded-lg p-1">
+                            <img src="${item.image}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1">
+                            <h5 class="text-[10px] font-bold">${item.name}</h5>
+                            <p class="text-[8px] opacity-40">${item.qty} Unit(s)</p>
+                        </div>
+                        <span class="text-[10px] font-black">${priceInr}</span>
+                    </div>
+                `;
+            }).join('');
+
+            this.renderCheckoutStep(1);
+        },
+
+        renderCheckoutStep(step) {
+            this.data.checkoutStep = step;
+            const container = document.getElementById('checkout-form-container');
+            
+            for (let i = 1; i <= 3; i++) {
+                const el = document.getElementById(`check-step-${i}`);
+                if (i === step) {
+                    el.className = 'text-premium-gold underline underline-offset-8';
+                } else if (i < step) {
+                    el.className = 'text-premium-gold';
+                } else {
+                    el.className = 'opacity-30';
+                }
+            }
+
+            if (step === 1) {
+                container.innerHTML = `
+                    <div class="glass p-10 rounded-[3rem] animate-reveal">
+                        <h3 class="text-2xl font-black italic mb-8">Shipping Address</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <input type="text" id="ship-first" placeholder="First Name" class="col-span-1 bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                            <input type="text" id="ship-last" placeholder="Last Name" class="col-span-1 bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                            <input type="text" id="ship-address" placeholder="Street Address" class="col-span-2 bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                            <input type="text" id="ship-city" placeholder="City" class="col-span-1 bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                            <input type="text" id="ship-pin" placeholder="Postal Code" class="col-span-1 bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                            <input type="text" id="ship-phone" placeholder="Phone Number" class="col-span-2 bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                        </div>
+                        <button onclick="app.renderCheckoutStep(2)" class="w-full bg-premium-gold text-premium-900 py-4 rounded-2xl font-black uppercase tracking-widest text-xs mt-8 hover:scale-105 transition-transform">Continue to Payment</button>
+                    </div>
+                `;
+            } else if (step === 2) {
+                container.innerHTML = `
+                    <div class="glass p-10 rounded-[3rem] animate-reveal">
+                        <h3 class="text-2xl font-black italic mb-8">Payment Method</h3>
+                        <div class="space-y-4">
+                            <div class="glass p-4 rounded-2xl border border-premium-gold flex items-center justify-between cursor-pointer">
+                                <div class="flex items-center gap-4">
+                                    <i class="fa-solid fa-credit-card text-premium-gold"></i>
+                                    <span class="text-xs font-bold uppercase tracking-widest">Credit Card</span>
+                                </div>
+                                <i class="fa-solid fa-circle-check text-premium-gold"></i>
+                            </div>
+                            <input type="text" placeholder="Cardholder Name" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                            <input type="text" placeholder="Card Number" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                            <div class="grid grid-cols-2 gap-4">
+                                <input type="text" placeholder="MM/YY" class="bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                                <input type="text" placeholder="CVC" class="bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:ring-1 focus:ring-premium-gold">
+                            </div>
+                        </div>
+                        <button onclick="app.renderCheckoutStep(3)" class="w-full bg-premium-gold text-premium-900 py-4 rounded-2xl font-black uppercase tracking-widest text-xs mt-8 hover:scale-105 transition-transform">Review Order</button>
+                    </div>
+                `;
+            } else if (step === 3) {
+                const subtotal = this.data.cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+                container.innerHTML = `
+                    <div class="glass p-10 rounded-[3rem] animate-reveal">
+                        <h3 class="text-2xl font-black italic mb-8">Confirm Order</h3>
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-center border-b border-white/10 pb-4">
+                                <span class="opacity-50">Items</span>
+                                <span>${this.data.cart.reduce((acc, item) => acc + item.qty, 0)} products</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-white/10 pb-4">
+                                <span class="opacity-50">Subtotal</span>
+                                <span>${this.formatPrice(subtotal)}</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-white/10 pb-4">
+                                <span class="opacity-50">Shipping</span>
+                                <span class="text-green-500">FREE</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xl font-black pt-4">
+                                <span>Total</span>
+                                <span class="text-premium-gold">${this.formatPrice(subtotal)}</span>
+                            </div>
+                        </div>
+                        <button onclick="app.placeOrder()" class="w-full bg-premium-gold text-premium-900 py-4 rounded-2xl font-black uppercase tracking-widest text-xs mt-8 hover:scale-105 transition-transform">Place Order</button>
+                    </div>
+                `;
+            }
+        },
+
+        placeOrder() {
+            const orderId = Math.floor(Math.random() * 90000) + 10000;
+            const subtotal = this.data.cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            
+            const newOrder = {
+                id: orderId,
+                userEmail: this.data.currentUser.email,
+                total: subtotal,
+                date: new Date().toISOString(),
+                status: 'Processing',
+                items: [...this.data.cart]
+            };
+
+            this.data.orders.push(newOrder);
+            localStorage.setItem('lumina_orders', JSON.stringify(this.data.orders));
+            
+            this.data.cart = [];
+            this.updateCartUI();
+
+            document.getElementById('checkout-form-container').innerHTML = `
+                <div class="glass p-10 rounded-[3rem] animate-reveal text-center">
+                    <div class="w-20 h-20 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto text-4xl mb-6">
+                        <i class="fa-solid fa-check-double"></i>
+                    </div>
+                    <h3 class="text-3xl font-black italic mb-2">Order Placed!</h3>
+                    <p class="opacity-50 text-sm mb-2">Order #${orderId}</p>
+                    <p class="opacity-50 text-sm mb-8">Thank you for your purchase, ${this.data.currentUser.name}!</p>
+                    <button onclick="app.navigate('profile')" class="bg-premium-gold text-premium-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:scale-105 transition-transform">View Orders</button>
+                </div>
+            `;
+
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`check-step-${i}`).className = 'opacity-30';
+            }
+
+            this.showNotification(`Order #${orderId} placed successfully! 🎉`);
+        },
+
+        // ============================================
+        // ADMIN FUNCTIONS
+        // ============================================
+        renderAdmin() {
+            this.renderAdminStats();
+            this.renderAdminTable();
+        },
+
+        renderAdminStats() {
+            const products = this.data.products;
+            document.getElementById('admin-total-products').textContent = products.length;
+            document.getElementById('admin-featured-count').textContent = products.filter(p => p.isFeatured).length;
+            const categories = new Set(products.map(p => p.category));
+            document.getElementById('admin-category-count').textContent = categories.size;
+            const totalValue = products.reduce((sum, p) => sum + (p.price * p.stock), 0);
+            document.getElementById('admin-total-value').textContent = this.formatPrice(totalValue);
+        },
+
+        renderAdminTable() {
+            const tbody = document.getElementById('admin-product-table-body');
+            const products = this.data.products;
+            
+            if (products.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-12 text-center opacity-40 italic">No products found. Add your first product!</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = products.map(p => `
+                <tr class="border-t border-white/5 hover:bg-white/5 transition-all">
+                    <td class="p-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-white/5 overflow-hidden flex-shrink-0">
+                                <img src="${p.image}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/100'">
+                            </div>
+                            <div>
+                                <p class="font-bold text-sm">${p.name}</p>
+                                <p class="text-[10px] opacity-40">ID: #${String(p.id).padStart(3, '0')}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="p-6 text-sm">${p.brand}</td>
+                    <td class="p-6 text-sm">${p.category}</td>
+                    <td class="p-6 font-bold">${this.formatPrice(p.price)}</td>
+                    <td class="p-6 text-sm"><span class="${p.stock < 5 ? 'text-red-500' : 'text-green-500'}">${p.stock}</span></td>
+                    <td class="p-6">
+                        <span class="${p.isFeatured ? 'bg-premium-gold/20 text-premium-gold' : 'bg-white/5'} px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                            ${p.isFeatured ? 'Featured' : 'Regular'}
+                        </span>
+                    </td>
+                    <td class="p-6 text-right">
+                        <div class="flex items-center justify-end gap-3">
+                            <button onclick="app.editProduct(${p.id})" class="text-premium-gold hover:scale-110 transition-transform text-sm">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </button>
+                            <button onclick="app.openDeleteModal(${p.id})" class="text-red-500 hover:scale-110 transition-transform text-sm">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        },
+
+        openAddProductModal() {
+            document.getElementById('product-form-title').textContent = 'Add New Product';
+            document.getElementById('edit-product-id').value = '';
+            document.getElementById('product-form').reset();
+            document.getElementById('pf-featured').checked = false;
+            document.getElementById('product-form-modal').classList.remove('hidden');
+            document.getElementById('product-form-modal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        },
+
+        editProduct(id) {
+            const p = this.data.products.find(x => x.id === id);
+            if (!p) return;
+            document.getElementById('product-form-title').textContent = 'Edit Product';
+            document.getElementById('edit-product-id').value = p.id;
+            document.getElementById('pf-name').value = p.name;
+            document.getElementById('pf-brand').value = p.brand;
+            document.getElementById('pf-category').value = p.category;
+            document.getElementById('pf-image').value = p.image;
+            document.getElementById('pf-price').value = p.price;
+            document.getElementById('pf-oldprice').value = p.oldPrice || '';
+            document.getElementById('pf-stock').value = p.stock;
+            document.getElementById('pf-featured').checked = p.isFeatured || false;
+            document.getElementById('product-form-modal').classList.remove('hidden');
+            document.getElementById('product-form-modal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        },
+
+        closeProductModal() {
+            document.getElementById('product-form-modal').classList.add('hidden');
+            document.getElementById('product-form-modal').classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        },
+
+        saveProduct(e) {
+            e.preventDefault();
+            const id = document.getElementById('edit-product-id').value;
+            const productData = {
+                name: document.getElementById('pf-name').value,
+                brand: document.getElementById('pf-brand').value,
+                category: document.getElementById('pf-category').value,
+                image: document.getElementById('pf-image').value,
+                price: parseFloat(document.getElementById('pf-price').value),
+                oldPrice: parseFloat(document.getElementById('pf-oldprice').value) || 0,
+                stock: parseInt(document.getElementById('pf-stock').value),
+                rating: '4.5',
+                reviews: 100,
+                isFeatured: document.getElementById('pf-featured').checked
+            };
+
+            if (id) {
+                const index = this.data.products.findIndex(p => p.id === parseInt(id));
+                if (index !== -1) {
+                    this.data.products[index] = { ...this.data.products[index], ...productData };
+                    this.showNotification(`Updated "${productData.name}" successfully!`);
+                }
+            } else {
+                productData.id = this.data.nextId++;
+                this.data.products.push(productData);
+                this.showNotification(`Added "${productData.name}" successfully!`);
+            }
+
+            this.renderAdmin();
+            this.renderFeatured();
+            if (this.data.currentPage === 'shop') this.renderShop();
+            this.closeProductModal();
+        },
+
+        openDeleteModal(id) {
+            document.getElementById('delete-product-id').value = id;
+            document.getElementById('delete-confirm-modal').classList.remove('hidden');
+            document.getElementById('delete-confirm-modal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        },
+
+        closeDeleteModal() {
+            document.getElementById('delete-confirm-modal').classList.add('hidden');
+            document.getElementById('delete-confirm-modal').classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        },
+
+        confirmDelete() {
+            const id = parseInt(document.getElementById('delete-product-id').value);
+            const product = this.data.products.find(p => p.id === id);
+            this.data.products = this.data.products.filter(p => p.id !== id);
+            this.renderAdmin();
+            this.renderFeatured();
+            if (this.data.currentPage === 'shop') this.renderShop();
+            this.closeDeleteModal();
+            this.showNotification(`Deleted "${product?.name || 'product'}" successfully.`);
+        },
+
+        // ============================================
+        // UI RENDERING FUNCTIONS
+        // ============================================
+        navigate(page) {
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(`${page}-page`);
+            if (target) {
+                target.classList.add('active');
+                this.data.currentPage = page;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            if (page === 'shop') this.renderShop();
+            if (page === 'admin') this.renderAdmin();
+            if (page === 'profile') this.checkAuthStatus();
+            if (page === 'checkout') {
+                if (this.data.cart.length === 0) {
+                    this.navigate('shop');
+                    this.showNotification("Your bag is empty!");
+                }
+            }
+        },
+
+        toggleTheme() {
+            this.data.theme = this.data.theme === 'dark' ? 'light' : 'dark';
+            this.applyTheme();
+        },
+
+        applyTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-toggle-icon');
+            if (this.data.theme === 'dark') {
+                html.classList.add('dark');
+                icon.className = 'fa-solid fa-sun';
+            } else {
+                html.classList.remove('dark');
+                icon.className = 'fa-solid fa-moon';
+            }
+            localStorage.setItem('lumina_theme', this.data.theme);
+        },
+
+        renderCategories() {
+            const grid = document.getElementById('category-grid');
+            grid.innerHTML = this.data.categories.map(c => `
+                <div onclick="app.navigate('shop')" class="group relative h-80 rounded-[2.5rem] overflow-hidden cursor-pointer">
+                    <img src="${c.img}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-500"></div>
+                    <div class="absolute inset-0 flex flex-col justify-end p-8 text-white">
+                        <h3 class="text-2xl font-black italic">${c.name}</h3>
+                    </div>
+                </div>
+            `).join('');
+        },
+
+        renderFeatured() {
+            const grid = document.getElementById('home-featured-grid');
+            const featured = this.data.products.filter(p => p.isFeatured).slice(0, 4);
+            grid.innerHTML = featured.map(p => this.createProductCard(p)).join('');
+        },
+
+       createProductCard(p) {
+    const inWishlist = this.data.wishlist.includes(p.id);
+    const priceInr = this.formatPrice(p.price);
+    const oldPriceInr = this.formatPrice(p.oldPrice);
+    const stars = '★'.repeat(Math.floor(p.rating)) + '☆'.repeat(5 - Math.floor(p.rating));
+    
+    return `
+        <div class="product-card group relative glass p-4 rounded-[2.5rem] transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+            <!-- Image Section -->
+            <div class="relative w-full aspect-square rounded-[2rem] overflow-hidden bg-premium-200 dark:bg-white/5">
+                <img src="${p.image}" class="product-image group-hover:scale-110 transition-transform duration-700" onerror="this.src='https://via.placeholder.com/800x800'">
+                
+                <!-- Wishlist Button -->
+                <button onclick="app.toggleWishlist(${p.id}, event)" class="absolute top-4 right-4 w-10 h-10 rounded-full glass flex items-center justify-center text-sm transition-all hover:scale-110 z-10">
+                    <i class="${inWishlist ? 'fa-solid fa-heart text-red-500' : 'fa-regular fa-heart'}"></i>
+                </button>
+                
+                <!-- Stock Badge -->
+                <div class="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${p.stock > 5 ? 'bg-green-500/80 text-white' : p.stock > 0 ? 'bg-yellow-500/80 text-black' : 'bg-red-500/80 text-white'}">
+                    ${p.stock > 5 ? 'In Stock' : p.stock > 0 ? 'Limited Stock' : 'Out of Stock'}
+                </div>
+                
+                <!-- Featured Badge -->
+                ${p.isFeatured ? `<div class="absolute top-4 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-premium-gold text-premium-900 text-[10px] font-black uppercase tracking-widest">Featured</div>` : ''}
+                
+                <!-- Quick View Button -->
+                <div class="quick-view-btn absolute bottom-4 inset-x-4">
+                    <button onclick="app.openModal(${p.id})" class="w-full bg-white text-black py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-premium-gold transition-all">Quick Look</button>
+                </div>
+            </div>
+            
+            <!-- Product Info -->
+            <div class="mt-4 px-2">
+                <!-- Brand & Category -->
+                <div class="flex justify-between items-center">
+                    <p class="text-[10px] uppercase tracking-widest opacity-40 font-black">${p.brand}</p>
+                    <p class="text-[10px] uppercase tracking-widest opacity-30">${p.category}</p>
+                </div>
+                
+                <!-- Product Name -->
+                <h3 class="font-bold text-sm mt-1 leading-tight line-clamp-2 hover:text-premium-gold transition-colors">${p.name}</h3>
+                
+                <!-- Price Section -->
+                <div class="flex items-center gap-3 mt-2">
+                    <span class="font-black text-lg text-premium-gold">${priceInr}</span>
+                    ${p.oldPrice ? `<span class="text-[10px] opacity-40 line-through">${oldPriceInr}</span>` : ''}
+                    ${p.oldPrice ? `<span class="text-[10px] text-green-500 font-bold">${Math.round((1 - p.price/p.oldPrice) * 100)}% OFF</span>` : ''}
+                </div>
+                
+                <!-- Rating Section -->
+                <div class="flex items-center gap-2 mt-2">
+                    <div class="flex items-center gap-0.5">
+                        ${p.rating ? `<span class="text-premium-gold font-bold text-sm">${p.rating}</span>` : ''}
+                        ${p.rating ? `<span class="text-[10px] text-premium-gold">${stars}</span>` : ''}
+                    </div>
+                    ${p.reviews ? `<span class="text-[10px] opacity-40">(${p.reviews} reviews)</span>` : ''}
+                </div>
+                
+                <!-- Add to Cart Button -->
+                <button onclick="app.addToCart(${p.id})" class="w-full mt-3 bg-premium-900 dark:bg-white text-premium-100 dark:text-premium-900 py-2.5 rounded-xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-transform ${p.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${p.stock === 0 ? 'disabled' : ''}>
+                    ${p.stock > 0 ? 'Add to Bag' : 'Out of Stock'}
+                </button>
+            </div>
+        </div>
+    `;
+},
+
+        renderShop() {
+            const grid = document.getElementById('shop-grid');
+            const sort = document.getElementById('sort-select').value;
+            const price = document.getElementById('price-filter').value;
+            document.getElementById('price-val').innerText = `₹${Number(price).toLocaleString('en-IN')}`;
+
+            let filtered = [...this.data.products].filter(p => (p.price * this.data.inrRate) <= price);
+            if (sort === 'low') filtered.sort((a,b) => a.price - b.price);
+            if (sort === 'high') filtered.sort((a,b) => b.price - a.price);
+            if (sort === 'popular') filtered.sort((a,b) => b.reviews - a.reviews);
+
+            document.getElementById('product-count').innerText = filtered.length;
+            grid.innerHTML = filtered.map(p => this.createProductCard(p)).join('');
+
+            const sideCat = document.getElementById('shop-categories');
+            const cats = ["All", ...this.data.categories.map(c => c.name)];
+            sideCat.innerHTML = cats.map(c => `
+                <button onclick="app.filterByCategory('${c}')" class="text-left text-xs font-bold py-2 px-4 rounded-xl hover:bg-white/5 transition-all flex justify-between items-center group">
+                    <span>${c}</span>
+                </button>
+            `).join('');
+        },
+
+        filterByCategory(category) {
+            const grid = document.getElementById('shop-grid');
+            const price = document.getElementById('price-filter').value;
+            const sort = document.getElementById('sort-select').value;
+            
+            let filtered = [...this.data.products];
+            
+            if (category !== 'All') {
+                filtered = filtered.filter(p => p.category === category);
+            }
+            
+            const maxPriceInr = parseInt(price);
+            filtered = filtered.filter(p => (p.price * this.data.inrRate) <= maxPriceInr);
+            
+            if (sort === 'low') filtered.sort((a,b) => a.price - b.price);
+            if (sort === 'high') filtered.sort((a,b) => b.price - a.price);
+            if (sort === 'popular') filtered.sort((a,b) => b.reviews - a.reviews);
+            
+            document.getElementById('product-count').innerText = filtered.length;
+            grid.innerHTML = filtered.map(p => this.createProductCard(p)).join('');
+        },
+
+       openModal(id) {
+    const p = this.data.products.find(x => x.id === id);
+    if (!p) return;
+    const modal = document.getElementById('product-modal');
+    const content = document.getElementById('modal-content');
+    const priceInr = this.formatPrice(p.price);
+    const oldPriceInr = this.formatPrice(p.oldPrice);
+    const stars = '★'.repeat(Math.floor(p.rating)) + '☆'.repeat(5 - Math.floor(p.rating));
+
+    content.innerHTML = `
+        <div class="bg-premium-200 dark:bg-white/5 rounded-[2.5rem] p-8 flex items-center justify-center">
+            <img src="${p.image}" class="w-full max-w-[500px] aspect-square object-contain" onerror="this.src='https://via.placeholder.com/800x800'">
+        </div>
+        <div class="flex flex-col">
+            <div class="mb-4">
+                <div class="flex items-center gap-3">
+                    <span class="text-premium-gold font-black uppercase tracking-[0.4em] text-[10px]">${p.brand}</span>
+                    <span class="text-[10px] opacity-30">|</span>
+                    <span class="text-[10px] opacity-40">${p.category}</span>
+                    ${p.isFeatured ? `<span class="bg-premium-gold/20 text-premium-gold px-2 py-0.5 rounded-full text-[8px] font-black uppercase">Featured</span>` : ''}
+                </div>
+                <h2 class="text-3xl font-black italic mt-2">${p.name}</h2>
+                
+                <div class="flex items-center gap-4 mt-4">
+                    <span class="text-3xl font-black text-premium-gold">${priceInr}</span>
+                    ${p.oldPrice ? `<span class="opacity-30 line-through text-lg">${oldPriceInr}</span>` : ''}
+                    ${p.oldPrice ? `<span class="text-green-500 text-sm font-bold">${Math.round((1 - p.price/p.oldPrice) * 100)}% OFF</span>` : ''}
+                </div>
+                
+                <div class="flex items-center gap-3 mt-3">
+                    <div class="flex items-center gap-1">
+                        <span class="text-premium-gold font-bold">${p.rating}</span>
+                        <span class="text-premium-gold text-sm">${stars}</span>
+                    </div>
+                    <span class="text-xs opacity-40">(${p.reviews} reviews)</span>
+                    <span class="text-xs opacity-30">|</span>
+                    <span class="text-xs ${p.stock > 5 ? 'text-green-500' : p.stock > 0 ? 'text-yellow-500' : 'text-red-500'} font-bold">${p.stock > 5 ? 'In Stock' : p.stock > 0 ? 'Limited Stock' : 'Out of Stock'}</span>
+                    <span class="text-xs opacity-40">(${p.stock} units)</span>
+                </div>
+            </div>
+            
+            <p class="text-sm opacity-60 leading-relaxed mb-6">Crafted with the highest standards of luxury, this piece combines timeless elegance with modern design. Made from premium quality materials, it ensures comfort and style for every occasion.</p>
+            
+            <div class="border-t border-white/10 pt-4 mb-6">
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <div><span class="opacity-40">Product ID:</span> <span class="font-bold">#${String(p.id).padStart(3, '0')}</span></div>
+                    <div><span class="opacity-40">Brand:</span> <span class="font-bold">${p.brand}</span></div>
+                    <div><span class="opacity-40">Category:</span> <span class="font-bold">${p.category}</span></div>
+                    <div><span class="opacity-40">Rating:</span> <span class="font-bold">${p.rating} ★</span></div>
+                </div>
+            </div>
+            
+            <div class="flex gap-4">
+                <button onclick="app.addToCart(${p.id})" class="flex-1 bg-premium-900 dark:bg-white text-premium-100 dark:text-premium-900 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:scale-105 transition-transform ${p.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${p.stock === 0 ? 'disabled' : ''}>
+                    ${p.stock > 0 ? 'Add to Bag' : 'Out of Stock'}
+                </button>
+                <button onclick="app.toggleWishlist(${p.id}, event)" class="w-14 glass rounded-2xl flex items-center justify-center text-xl hover:bg-white/10 transition-all">
+                    <i class="${this.data.wishlist.includes(p.id) ? 'fa-solid fa-heart text-red-500' : 'fa-regular fa-heart'}"></i>
+                </button>
+            </div>
+        </div>
+    `;
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+},
+
+        closeModal() {
+            const modal = document.getElementById('product-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        },
+
+        addToCart(id) {
+            const p = this.data.products.find(x => x.id === id);
+            if (!p) return;
+            const exists = this.data.cart.find(item => item.id === id);
+            if (exists) {
+                exists.qty++;
+            } else {
+                this.data.cart.push({ ...p, qty: 1 });
+            }
+            this.updateCartUI();
+            this.showNotification(`Added ${p.name} to bag`);
+            this.closeModal();
+        },
+
+        updateCartUI() {
+            const count = this.data.cart.reduce((acc, item) => acc + item.qty, 0);
+            document.getElementById('cart-badge').innerText = count;
+            localStorage.setItem('lumina_cart', JSON.stringify(this.data.cart));
+            
+            const itemsList = document.getElementById('cart-items');
+            if (this.data.cart.length === 0) {
+                itemsList.innerHTML = `<div class="text-center py-20 opacity-30 italic"><p>Your bag is empty.</p></div>`;
+                document.getElementById('cart-total-price').innerText = "₹0.00";
+                return;
+            }
+
+            itemsList.innerHTML = this.data.cart.map(item => {
+                const totalInr = this.formatPrice(item.price * item.qty);
+                return `
+                <div class="flex gap-4 items-center group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 p-2 flex-shrink-0">
+                        <img src="${item.image}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/100'">
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-xs leading-tight">${item.name}</h4>
+                        <div class="flex justify-between items-center mt-2">
+                            <div class="flex items-center gap-3 glass px-3 py-1 rounded-lg">
+                                <button onclick="app.updateQty(${item.id}, -1)" class="text-xs opacity-50">&minus;</button>
+                                <span class="text-xs font-bold">${item.qty}</span>
+                                <button onclick="app.updateQty(${item.id}, 1)" class="text-xs opacity-50">&plus;</button>
+                            </div>
+                            <span class="font-black text-xs">${totalInr}</span>
+                        </div>
+                    </div>
+                    <button onclick="app.removeFromCart(${item.id})" class="text-red-500 text-xs opacity-0 group-hover:opacity-100 transition-opacity"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `}).join('');
+
+            const total = this.data.cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            document.getElementById('cart-total-price').innerText = this.formatPrice(total);
+        },
+
+        updateQty(id, delta) {
+            const item = this.data.cart.find(x => x.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) this.data.cart = this.data.cart.filter(x => x.id !== id);
+                this.updateCartUI();
+            }
+        },
+
+        removeFromCart(id) {
+            this.data.cart = this.data.cart.filter(x => x.id !== id);
+            this.updateCartUI();
+        },
+
+        toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            const inner = drawer.querySelector('div:last-child');
+            if (drawer.classList.contains('invisible')) {
+                drawer.classList.remove('invisible');
+                inner.classList.remove('translate-x-full');
+            } else {
+                inner.classList.add('translate-x-full');
+                setTimeout(() => drawer.classList.add('invisible'), 500);
+            }
+        },
+
+        toggleWishlist(id, e) {
+            e.stopPropagation();
+            const idx = this.data.wishlist.indexOf(id);
+            if (idx > -1) {
+                this.data.wishlist.splice(idx, 1);
+                this.showNotification("Removed from wishlist.");
+            } else {
+                this.data.wishlist.push(id);
+                this.showNotification("Added to your wishlist.");
+            }
+            localStorage.setItem('lumina_wishlist', JSON.stringify(this.data.wishlist));
+            this.renderFeatured();
+            if (this.data.currentPage === 'shop') this.renderShop();
+        },
+
+        showNotification(msg) {
+            const container = document.getElementById('notif-center');
+            const notif = document.createElement('div');
+            notif.className = "glass p-4 rounded-2xl border-l-4 border-premium-gold text-xs font-black uppercase tracking-widest shadow-2xl pointer-events-auto cursor-pointer";
+            notif.innerHTML = `<div class="flex items-center gap-3"><i class="fa-solid fa-bell text-premium-gold"></i><span>${msg}</span></div>`;
+            notif.onclick = () => notif.remove();
+            container.appendChild(notif);
+            setTimeout(() => notif.remove(), 4000);
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => app.init());
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('sort-select')?.addEventListener('change', () => app.renderShop());
+        document.getElementById('price-filter')?.addEventListener('input', () => app.renderShop());
+    });
+    </script>
+    </body>
+</html>
